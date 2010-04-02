@@ -45,10 +45,11 @@
       </c:if>
     </nxu:set>
 <!-- lack of layout named WebSite #{currentDocument.type}=WebSite
+<h1>Missing layout #{currentDocument.type}</h1>
+-->
     <c:if test="#{currentDocument.hasFacet('WebView') and currentDocument.webc.isWebContainer}">
       <nxl:layout name="#{currentDocument.type}" mode="view" value="" />
     </c:if>
--->
 
   </h:form>
   
@@ -56,5 +57,4 @@
   
   <div style="clear:both"></div>
 
-<h1>Missing layout #{currentDocument.type}</h1>
 </div>
