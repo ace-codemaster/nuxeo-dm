@@ -1,4 +1,3 @@
-afadfs
 <div xmlns:h="http://java.sun.com/jsf/html"
   xmlns:ui="http://java.sun.com/jsf/facelets"
   xmlns:f="http://java.sun.com/jsf/core"
@@ -63,8 +62,8 @@ afadfs
                     value="#{actions}"
                     rowIndexVar="row"
                     rowCountVar="rowCount">
-        <h:outputText value=" | " rendered="#{row!=rowCount and row!=0 and row!=1 and row!=2}"/>
-        <nxh:commandLink action="#{action.getLink()}" rendered="#{row==0 or row==3}">
+        <h:outputText value=" | " rendered="#{row!=rowCount and row!=0 and row!=1}"/>
+        <nxh:commandLink action="#{action.getLink()}" rendered="#{row==0 or row==2 or row==3}">
           <h:outputText value="#{messages[action.label]}" />
         </nxh:commandLink>
       </nxu:dataList>
