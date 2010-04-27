@@ -62,8 +62,8 @@
                     value="#{actions}"
                     rowIndexVar="row"
                     rowCountVar="rowCount">
-        <h:outputText value=" | " rendered="#{row!=rowCount and row!=0 and row!=1}"/>
-        <nxh:commandLink action="#{action.getLink()}" rendered="#{row==0 or row==2 or row==3}">
+        <h:outputText value=" | " rendered="#{row!=rowCount and row!=0 }"/>
+        <nxh:commandLink action="#{action.getLink()}" rendered="#{row==0 or row==1 or row==2 or row==3}">
           <h:outputText value="#{messages[action.label]}" />
         </nxh:commandLink>
       </nxu:dataList>
