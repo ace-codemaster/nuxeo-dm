@@ -63,7 +63,8 @@
                     rowIndexVar="row"
                     rowCountVar="rowCount">
         <h:outputText value=" | " rendered="#{row!=rowCount and row!=0 }"/>
-        <nxh:commandLink action="#{action.getLink()}" rendered="#{row==0 or row==1 or row==2 or row==3}">
+        <!--nxh:commandLink action="#{action.getLink()}" rendered="#{row==0 or row==1 or row==2 or row==3}"-->
+        <nxh:commandLink action="#{action.getLink()}" rendered="#{action.id=='user_dashboard' or action.id=='user_manager' or action.id=='vocabularies_manager' or action.id=='SHOW_PERSONAL_WORKSPACE'}">
           <h:outputText value="#{messages[action.label]}" />
         </nxh:commandLink>
       </nxu:dataList>
