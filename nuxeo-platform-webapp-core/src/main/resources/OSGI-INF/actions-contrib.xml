@@ -586,6 +586,7 @@
         <type>TemplateRoot</type>
         <type>Section</type>
         <type>Folder</type>
+        <condition>#{webActions.crmCreationCheck(document)}</condition>
       </rule>
     </filter>
 
@@ -595,6 +596,7 @@
         <facet>Folderish</facet>
         <type>Workspace</type>
         <type>Folder</type>
+        <condition>#{webActions.crmImportFileCheck(document)}</condition>        
       </rule>
     </filter>
 
