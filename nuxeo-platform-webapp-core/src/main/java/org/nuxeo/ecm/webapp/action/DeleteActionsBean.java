@@ -78,6 +78,8 @@ import org.nuxeo.ecm.webapp.querymodel.QueryModelActions;
 import org.nuxeo.ecm.webapp.search.SearchActions;
 import org.nuxeo.ecm.webapp.trashManagement.TrashManager;
 
+import com.intalio.core.api.CRMCoreUtils;
+
 @Name("deleteActions")
 @Scope(EVENT)
 @Install(precedence = FRAMEWORK)
@@ -252,6 +254,17 @@ public class DeleteActionsBean extends InputController implements
 
         if (docsToDelete == null || docsToDelete.isEmpty()) {
             return false;
+        }
+        
+        // if the selected documents include crm documents like main workspace
+        // crm modules, the delete button will be disabled.
+        for (DocumentModel dm : docsToDelete) {
+        	if (CRMCoreUtils.isMainWorkspace(dm)) {
+        		return false;
+        	}
+        	if (CRMCoreUtils.isModule(dm)) {
+        		return false;
+        	}
         }
 
         // do simple filtering
