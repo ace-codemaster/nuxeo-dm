@@ -290,6 +290,15 @@ public class DeleteActionsBean extends InputController implements
 							log.error(e);
 						}
 					}
+				} else if (CRMCoreUtils.isRecordChild(dm)) {
+					try {
+						if (!documentManager.hasPermission(dm.getRef(),
+								SecurityConstants.REMOVE)) {
+							return false;
+						}
+					} catch (ClientException e) {
+						log.error(e);
+					}
 				}
 			}
 
