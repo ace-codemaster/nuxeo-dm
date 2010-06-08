@@ -55,6 +55,7 @@ import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.LifeCycleConstants;
 import org.nuxeo.ecm.core.api.PagedDocumentsProvider;
 import org.nuxeo.ecm.core.api.SortInfo;
+import org.nuxeo.ecm.core.api.impl.DocumentModelImpl;
 import org.nuxeo.ecm.core.api.impl.DocumentModelListImpl;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.search.api.client.querymodel.QueryModel;
@@ -268,7 +269,34 @@ public class DeleteActionsBean extends InputController implements
         }
 
         // do simple filtering
-        return checkDeletePermOnParents(docsToDelete);
+        boolean deletable = checkDeletePermOnParents(docsToDelete);
+        
+        // check the permission if it is one crm records.
+		if (deletable) {
+			for (DocumentModel dm : docsToDelete) {
+				if (CRMCoreUtils.isRecord(dm)) {
+					if (dm instanceof DocumentModelImpl) {
+						DocumentModelImpl dmImpl = (DocumentModelImpl) dm;
+						if (!dmImpl.getPermission().canEdit()) {
+							return false;
+						}
+					} else {
+						try {
+							if (!documentManager.hasPermission(dm.getRef(),
+									SecurityConstants.REMOVE)) {
+								return false;
+							}
+						} catch (ClientException e) {
+							log.error(e);
+						}
+					}
+				}
+			}
+
+			return true;
+		} else {
+			return false;
+		}
     }
 
     public boolean getCanDeleteSections() {
@@ -326,7 +354,7 @@ public class DeleteActionsBean extends InputController implements
         }
         return false;
     }
-
+ 
     private List<DocumentModel> filterDeleteListAccordingToPermsOnParents(
             List<DocumentModel> docsToDelete) throws ClientException {
 
