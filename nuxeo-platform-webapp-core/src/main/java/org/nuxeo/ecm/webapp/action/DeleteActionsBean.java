@@ -80,6 +80,7 @@ import org.nuxeo.ecm.webapp.search.SearchActions;
 import org.nuxeo.ecm.webapp.trashManagement.TrashManager;
 
 import com.intalio.core.api.CRMCoreUtils;
+import com.intalio.core.api.CRMDocumentNames;
 
 @Name("deleteActions")
 @Scope(EVENT)
@@ -274,23 +275,8 @@ public class DeleteActionsBean extends InputController implements
         // check the permission if it is one crm records.
 		if (deletable) {
 			for (DocumentModel dm : docsToDelete) {
-				if (CRMCoreUtils.isRecord(dm)) {
-					if (dm instanceof DocumentModelImpl) {
-						DocumentModelImpl dmImpl = (DocumentModelImpl) dm;
-						if (!dmImpl.getPermission().canEdit()) {
-							return false;
-						}
-					} else {
-						try {
-							if (!documentManager.hasPermission(dm.getRef(),
-									SecurityConstants.REMOVE)) {
-								return false;
-							}
-						} catch (ClientException e) {
-							log.error(e);
-						}
-					}
-				} else if (CRMCoreUtils.isRecordChild(dm)) {
+				if ((CRMDocumentNames.isRecordByName(dm.getName())) 
+						|| (CRMDocumentNames.isRecordChildByName(dm.getName()))) {
 					try {
 						if (!documentManager.hasPermission(dm.getRef(),
 								SecurityConstants.REMOVE)) {
@@ -301,7 +287,6 @@ public class DeleteActionsBean extends InputController implements
 					}
 				}
 			}
-
 			return true;
 		} else {
 			return false;

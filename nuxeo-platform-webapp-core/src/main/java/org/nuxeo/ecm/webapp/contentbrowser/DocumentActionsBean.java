@@ -49,6 +49,7 @@ import org.jboss.seam.annotations.remoting.WebRemote;
 import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.core.Events;
 import org.nuxeo.common.utils.IdUtils;
+import org.nuxeo.common.utils.Path;
 import org.nuxeo.common.utils.StringUtils;
 import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.core.api.Blob;
@@ -82,6 +83,9 @@ import org.nuxeo.ecm.webapp.base.InputController;
 import org.nuxeo.ecm.webapp.documentsLists.DocumentsListsManager;
 import org.nuxeo.ecm.webapp.helpers.EventNames;
 import org.nuxeo.ecm.webapp.pagination.ResultsProvidersCache;
+
+import com.intalio.core.api.CRMCoreUtils;
+import com.intalio.core.api.CRMDocumentNames;
 
 /**
  * @author <a href="mailto:rcaraghin@nuxeo.com">Razvan Caraghin</a>
@@ -462,9 +466,14 @@ public class DocumentActionsBean extends InputController implements
                 title = "";
             }
             String name = IdUtils.generateId(title);
+            
             // set parent path and name for document model
             newDocument.setPathInfo(parentDocumentPath, name);
 
+            if (CRMDocumentNames.isCRMDocument(new Path(parentDocumentPath))) {
+            	CRMCoreUtils.updateNewDocName(newDocument, name);
+            }
+            
             newDocument = documentManager.createDocument(newDocument);
             documentManager.save();
 
