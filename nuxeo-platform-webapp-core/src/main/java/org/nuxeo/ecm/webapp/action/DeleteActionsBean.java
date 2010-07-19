@@ -264,9 +264,9 @@ public class DeleteActionsBean extends InputController implements
         	if (CRMCoreUtils.isMainWorkspace(dm)) {
         		return false;
         	}
-        	if (CRMCoreUtils.isModule(dm)) {
-        		return false;
-        	}
+//        	if (CRMCoreUtils.isModule(dm)) {
+//        		return false;
+//        	}
         }
 
         // do simple filtering
