@@ -55,6 +55,7 @@ import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.LifeCycleConstants;
 import org.nuxeo.ecm.core.api.PagedDocumentsProvider;
 import org.nuxeo.ecm.core.api.SortInfo;
+import org.nuxeo.ecm.core.api.impl.DocumentModelImpl;
 import org.nuxeo.ecm.core.api.impl.DocumentModelListImpl;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.search.api.client.querymodel.QueryModel;
@@ -79,6 +80,7 @@ import org.nuxeo.ecm.webapp.search.SearchActions;
 import org.nuxeo.ecm.webapp.trashManagement.TrashManager;
 
 import com.intalio.core.api.CRMCoreUtils;
+import com.intalio.core.api.CRMDocumentNames;
 
 @Name("deleteActions")
 @Scope(EVENT)
@@ -262,13 +264,33 @@ public class DeleteActionsBean extends InputController implements
         	if (CRMCoreUtils.isMainWorkspace(dm)) {
         		return false;
         	}
-        	if (CRMCoreUtils.isModule(dm)) {
-        		return false;
-        	}
+//        	if (CRMCoreUtils.isModule(dm)) {
+//        		return false;
+//        	}
         }
 
         // do simple filtering
-        return checkDeletePermOnParents(docsToDelete);
+        boolean deletable = checkDeletePermOnParents(docsToDelete);
+        
+        // check the permission if it is one crm records.
+		if (deletable) {
+			for (DocumentModel dm : docsToDelete) {
+				if ((CRMDocumentNames.isRecordByName(dm.getName())) 
+						|| (CRMDocumentNames.isRecordChildByName(dm.getName()))) {
+					try {
+						if (!documentManager.hasPermission(dm.getRef(),
+								SecurityConstants.REMOVE)) {
+							return false;
+						}
+					} catch (ClientException e) {
+						log.error(e);
+					}
+				}
+			}
+			return true;
+		} else {
+			return false;
+		}
     }
 
     public boolean getCanDeleteSections() {
@@ -326,7 +348,7 @@ public class DeleteActionsBean extends InputController implements
         }
         return false;
     }
-
+ 
     private List<DocumentModel> filterDeleteListAccordingToPermsOnParents(
             List<DocumentModel> docsToDelete) throws ClientException {
 

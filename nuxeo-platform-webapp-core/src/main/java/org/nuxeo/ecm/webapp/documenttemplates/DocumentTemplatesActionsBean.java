@@ -198,6 +198,10 @@ public class DocumentTemplatesActionsBean extends InputController implements
             facesMessages.add(FacesMessage.SEVERITY_INFO,
                     resourcesAccessor.getMessages().get("document_saved"),
                     resourcesAccessor.getMessages().get(created.getType()));
+            
+			org.jboss.seam.core.Events.instance().raiseEvent(
+					EventNames.DOCUMENT_CHILDREN_CHANGED, created);
+            
             return navigationContext.navigateToDocument(created, "after-create");
         } catch (Throwable t) {
             throw ClientException.wrap(t);
