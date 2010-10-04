@@ -8,5 +8,4 @@ Bundle-Category: web,stateful
 Nuxeo-Component: OSGI-INF/nxdirectories-contrib.xml,
   OSGI-INF/jbpmService-contrib.xml
 Require-Bundle: org.nuxeo.ecm.directory.api,
- org.nuxeo.ecm.platform.jbpm.core,
- org.nuxeo.ecm.platform.jbpm.api
+  org.nuxeo.ecm.platform.jbpm.core
