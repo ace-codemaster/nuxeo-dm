@@ -37,3 +37,13 @@ Require-Bundle: org.nuxeo.ecm.platform.types.api,
  javax.faces.jsf-impl,
  org.jboss.seam;bundle-version="2.1.2"
 Nuxeo-RequiredBy: org.nuxeo.ecm.platform.placeful.theme
+Nuxeo-Require: org.nuxeo.ecm.platform.types.api,
+ org.nuxeo.ecm.platform.versioning.api,
+ org.nuxeo.ecm.platform.ui,
+ org.nuxeo.ecm.webapp.base,
+ org.nuxeo.ecm.core.query,
+ org.nuxeo.ecm.platform.search.api,
+ org.nuxeo.ecm.directory.api,
+ org.nuxeo.ecm.platform.forms.layout.client,
+ org.nuxeo.ecm.platform.jbpm.api
+
