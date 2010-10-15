@@ -1,28 +1,21 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
+Bundle-Version: 5.3.2.-SNAPSHOT-t20101006-223640
 Bundle-Name: NuxeoWeb
 Bundle-SymbolicName: org.nuxeo.ecm.webapp.core
 Bundle-Localization: plugin
 Bundle-Vendor: Nuxeo
 Bundle-Category: web
-Nuxeo-Component: OSGI-INF/theme-contrib.xml,
-  OSGI-INF/querymodel-contrib.xml,
-  OSGI-INF/resultsprovider-contrib.xml,
-  OSGI-INF/actions-contrib.xml,
-  OSGI-INF/nxsearchui-framework.xml,
-  OSGI-INF/nxsearchui-contrib.xml,
-  OSGI-INF/documentslists-contrib.xml,
-  OSGI-INF/trashManagement-framework.xml,
-  OSGI-INF/trashManagement-contrib.xml,
-  OSGI-INF/services-binding-contrib.xml,
-  OSGI-INF/uiPermissionService-framework.xml,
-  OSGI-INF/urlservice-contrib.xml,
-  OSGI-INF/search-types-contrib.xml,
-  OSGI-INF/layouts-contrib.xml,
-  OSGI-INF/layouts-summary-contrib.xml,  
-  OSGI-INF/exceptionhandling-contrib.xml,
-  OSGI-INF/seamremotingjsbuilder-contrib.xml,
-  OSGI-INF/directory-ui-contrib.xml
+Nuxeo-Component: OSGI-INF/theme-contrib.xml, OSGI-INF/querymodel-contr
+ ib.xml, OSGI-INF/resultsprovider-contrib.xml, OSGI-INF/actions-contri
+ b.xml, OSGI-INF/nxsearchui-framework.xml, OSGI-INF/nxsearchui-contrib
+ .xml, OSGI-INF/documentslists-contrib.xml, OSGI-INF/trashManagement-f
+ ramework.xml, OSGI-INF/trashManagement-contrib.xml, OSGI-INF/services
+ -binding-contrib.xml, OSGI-INF/uiPermissionService-framework.xml, OSG
+ I-INF/urlservice-contrib.xml, OSGI-INF/search-types-contrib.xml, OSGI
+ -INF/layouts-contrib.xml, OSGI-INF/layouts-summary-contrib.xml,   OSG
+ I-INF/exceptionhandling-contrib.xml, OSGI-INF/seamremotingjsbuilder-c
+ ontrib.xml, OSGI-INF/directory-ui-contrib.xml
 Require-Bundle: org.nuxeo.ecm.platform.types.api,
  org.nuxeo.ecm.platform.versioning.api,
  org.nuxeo.ecm.platform.ui,
@@ -33,17 +26,83 @@ Require-Bundle: org.nuxeo.ecm.platform.types.api,
  org.nuxeo.ecm.platform.forms.layout.client,
  org.nuxeo.ecm.platform.jbpm.api,
  org.nuxeo.ecm.platform.web.common;bundle-version="5.3.2",
- javax.faces.jsf-api,
- javax.faces.jsf-impl,
- org.jboss.seam;bundle-version="2.1.2"
+ org.nuxeo.ecm.platform.ui.api;bundle-version="5.3.2",
+ org.nuxeo.ecm.actions;bundle-version="5.3.2",
+ org.nuxeo.ecm.platform.filemanager.api;bundle-version="5.3.2",
+ org.nuxeo.ecm.platform;bundle-version="5.3.2",
+ org.nuxeo.ecm.core.convert.api;bundle-version="1.6.2",
+ org.nuxeo.ecm.directory.web;bundle-version="5.3.2",
+ org.nuxeo.ecm.platform.url.api;bundle-version="5.3.2",
+ org.nuxeo.ecm.platform.api;bundle-version="5.3.2",
+ org.nuxeo.ecm.platform.usermanager.api;bundle-version="5.3.2",
+ org.nuxeo.ecm.platform.mimetype.api;bundle-version="5.3.2",
+ org.nuxeo.ecm.platform.el;bundle-version="5.3.2",
+ org.nuxeo.theme.core;bundle-version="5.3.2",
+ org.nuxeo.ecm.platform.forms.layout.api;bundle-version="5.3.2",
+ org.nuxeo.ecm.platform.types.core;bundle-version="5.3.2",
+ org.nuxeo.platform.virtualnavigation.web;bundle-version="1.0.0",
+ org.nuxeo.ecm.core.api
+Import-Package: au.com.bytecode.opencsv,
+ javassist.util.proxy;version="3.9.0.GA",
+ javax.annotation.security;version="1.0.0",
+ javax.ejb;version="3.3.0",
+ javax.faces.application;version="1.2.0",
+ javax.faces.component;version="1.2.0",
+ javax.faces.context;version="1.2.0",
+ javax.faces.event;version="1.2.0",
+ javax.faces.model;version="1.2.0",
+ javax.faces.validator;version="1.2.0",
+ javax.servlet;version="2.5.0",
+ javax.servlet.http;version="2.5.0",
+ org.apache.commons.collections;version="3.2.1",
+ org.apache.commons.lang;version="2.4.0",
+ org.apache.commons.logging;version="1.0.4",
+ org.dom4j;version="1.6.1",
+ org.dom4j.io;version="1.6.1",
+ org.jboss.seam;version="2.1.2",
+ org.jboss.seam.annotations;version="2.1.2",
+ org.jboss.seam.annotations.datamodel;version="2.1.2",
+ org.jboss.seam.annotations.intercept;version="2.1.2",
+ org.jboss.seam.annotations.remoting;version="2.2.0",
+ org.jboss.seam.annotations.web;version="2.1.2",
+ org.jboss.seam.contexts;version="2.1.2",
+ org.jboss.seam.core;version="2.1.2",
+ org.jboss.seam.faces;version="2.1.2",
+ org.jboss.seam.intercept;version="2.1.2",
+ org.jboss.seam.mock;version="2.1.2",
+ org.jboss.seam.navigation;version="2.1.2",
+ org.richfaces.event,
+ org.richfaces.model
 Nuxeo-RequiredBy: org.nuxeo.ecm.platform.placeful.theme
-Nuxeo-Require: org.nuxeo.ecm.platform.types.api,
- org.nuxeo.ecm.platform.versioning.api,
- org.nuxeo.ecm.platform.ui,
- org.nuxeo.ecm.webapp.base,
- org.nuxeo.ecm.core.query,
- org.nuxeo.ecm.platform.search.api,
- org.nuxeo.ecm.directory.api,
- org.nuxeo.ecm.platform.forms.layout.client,
- org.nuxeo.ecm.platform.jbpm.api
-
+Nuxeo-Require: org.nuxeo.ecm.platform.types.api,org.nuxeo.ecm.platform
+ .versioning.api,org.nuxeo.ecm.platform.ui,org.nuxeo.ecm.webapp.base,o
+ rg.nuxeo.ecm.core.query,org.nuxeo.ecm.platform.search.api,org.nuxeo.e
+ cm.directory.api,org.nuxeo.ecm.platform.forms.layout.client,org.nuxeo.ecm.platform.jbpm.api
+Export-Package: org.nuxeo.ecm.webapp.action,
+ org.nuxeo.ecm.webapp.bulkupdate,
+ org.nuxeo.ecm.webapp.contentbrowser,
+ org.nuxeo.ecm.webapp.context,
+ org.nuxeo.ecm.webapp.dashboard,
+ org.nuxeo.ecm.webapp.delegate,
+ org.nuxeo.ecm.webapp.directory,
+ org.nuxeo.ecm.webapp.documenttemplates,
+ org.nuxeo.ecm.webapp.edit.lock,
+ org.nuxeo.ecm.webapp.edit.vocabularies,
+ org.nuxeo.ecm.webapp.email,
+ org.nuxeo.ecm.webapp.filemanager,
+ org.nuxeo.ecm.webapp.helpers,
+ org.nuxeo.ecm.webapp.liveedit,
+ org.nuxeo.ecm.webapp.navigation,
+ org.nuxeo.ecm.webapp.note,
+ org.nuxeo.ecm.webapp.search,
+ org.nuxeo.ecm.webapp.security,
+ org.nuxeo.ecm.webapp.shield,
+ org.nuxeo.ecm.webapp.table.cell,
+ org.nuxeo.ecm.webapp.table.comparator,
+ org.nuxeo.ecm.webapp.table.header,
+ org.nuxeo.ecm.webapp.table.model,
+ org.nuxeo.ecm.webapp.table.row,
+ org.nuxeo.ecm.webapp.table.sort,
+ org.nuxeo.ecm.webapp.trashManagement,
+ org.nuxeo.ecm.webapp.versioning,
+ org.nuxeo.ecm.webapp.webcontainer
