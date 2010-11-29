@@ -7,13 +7,13 @@
   <m:from name="#{facesContext.externalContext.userPrincipal.firstName} #{facesContext.externalContext.userPrincipal.lastName}"
           address="#{emailSenderAction.fromEmail}" />
 
-  <ui:repeat value="#{emailSenderAction.toEmail}" var="user">
-    <m:to name="#{user.firstName} #{user.lastName}">#{user.model['user']['email']}</m:to>
+  <32ui:repeat value="#{emailSenderAction.toEmail}" var="user">
+    <m:to name="#{user.firstName} #{user.lastName}">#{user.model['user']['emailaddress1']}</m:to>
   </ui:repeat>
   <m:subject><h:outputText value="#{emailSenderAction.mailSubject}"/></m:subject>
   <m:body>
     <p><h:outputText value="#{emailSenderAction.mailContent}" escape="false"/></p>
-    <h:outputText value="#{messages['label.mail.before.document.link']}"/>
+   <h:outputText value="#{messages['label.mail.before.document.link']}"/>
     <f:verbatim>&amp;nbsp;</f:verbatim>
 
     <h:outputLink value="#{emailSenderAction.currentDocumentFullUrl}" rendered="#{currentDocument!=null}">
