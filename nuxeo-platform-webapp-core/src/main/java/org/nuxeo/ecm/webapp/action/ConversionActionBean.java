@@ -22,6 +22,7 @@ package org.nuxeo.ecm.webapp.action;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
+import java.util.Map;
 
 import javax.ejb.Remove;
 import javax.faces.context.FacesContext;
@@ -43,7 +44,6 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.core.api.blobholder.DocumentBlobHolder;
-import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.convert.api.ConversionService;
 import org.nuxeo.ecm.core.convert.api.ConverterCheckResult;
 import org.nuxeo.ecm.platform.ui.web.api.NavigationContext;
@@ -219,9 +219,21 @@ public class ConversionActionBean implements ConversionAction {
             do {
                 n = inputStream.read(array, offset, length - offset);
             } while (n != -1);
-
-           // String headerContent = "attachment; filename=\"" + name + "\";";
-            String headerContent = "attachment; filename*=UTF-8''"+ URLEncoder.encode(name.substring(0, name.length()-4), "UTF-8")+".pdf;";
+            
+            FacesContext context = FacesContext.getCurrentInstance();
+            HttpServletResponse response = (HttpServletResponse) context
+                    .getExternalContext().getResponse();
+            Map<String, String> h=context.getExternalContext().getRequestHeaderMap();
+            String ua = h.get("User-Agent").toLowerCase();
+            String url_encoded_name= URLEncoder.encode(name.substring(0, name.length()-4), "UTF-8")+".pdf";
+            String iso_encoded_name = new String(name.getBytes("UTF-8"),"ISO8859-1");
+            String headerContent = "attachment; filename=\"" + name + "\";";
+            if (ua.indexOf("msie")>=0)
+            	 headerContent = "attachment; filename=\""+ url_encoded_name +"\";";
+            else if (ua.indexOf("firefox")>=0 || ua.indexOf("opera") >=0)
+            	headerContent = "attachment; filename*=UTF-8''"+ url_encoded_name + ";";
+            else if (ua.indexOf("safari")>=0 || ua.indexOf("applewebkit") >=0)
+            	headerContent = "attachment; filename=\""+ iso_encoded_name + "\";";
             writeResponse("Content-Disposition", headerContent,
                     "application/pdf", array);
 
@@ -255,7 +267,7 @@ public class ConversionActionBean implements ConversionAction {
                 .getExternalContext().getResponse();
         response.setHeader(header, headerContent);
         response.setContentType(contentType);
-        response.setCharacterEncoding("UTF-8");
+        response.getOutputStream().write(value);
         context.responseComplete();
     }
 
