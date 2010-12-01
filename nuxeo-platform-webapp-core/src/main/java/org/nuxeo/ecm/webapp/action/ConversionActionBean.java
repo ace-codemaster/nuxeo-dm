@@ -21,6 +21,7 @@ package org.nuxeo.ecm.webapp.action;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 
 import javax.ejb.Remove;
 import javax.faces.context.FacesContext;
@@ -185,7 +186,7 @@ public class ConversionActionBean implements ConversionAction {
                     .getService(ConversionService.class);
             BlobHolder result = cs.convert(PDF_PREVIEW_CONVERTER,
                     bh,
-                    null);
+                    null);	
 
             String fname = new Path(bh.getFilePath()).lastSegment();
             String name;
@@ -219,7 +220,8 @@ public class ConversionActionBean implements ConversionAction {
                 n = inputStream.read(array, offset, length - offset);
             } while (n != -1);
 
-            String headerContent = "attachment; filename=\"" + name + "\";";
+           // String headerContent = "attachment; filename=\"" + name + "\";";
+            String headerContent = "attachment; filename*=UTF-8''"+ URLEncoder.encode(name.substring(0, name.length()-4), "UTF-8")+".pdf;";
             writeResponse("Content-Disposition", headerContent,
                     "application/pdf", array);
 
@@ -253,7 +255,7 @@ public class ConversionActionBean implements ConversionAction {
                 .getExternalContext().getResponse();
         response.setHeader(header, headerContent);
         response.setContentType(contentType);
-        response.getOutputStream().write(value);
+        response.setCharacterEncoding("UTF-8");
         context.responseComplete();
     }
 
