@@ -67,6 +67,8 @@ import org.nuxeo.runtime.api.Framework;
 import org.richfaces.event.UploadEvent;
 import org.richfaces.model.UploadItem;
 
+import com.intalio.core.api.CRMCoreUtils;
+
 /**
  * @author <a href="mailto:andreas.kalogeropoulos@nuxeo.com">Andreas
  *         Kalogeropoulos</a>
@@ -543,10 +545,24 @@ public class FileManageActionsBean extends InputController implements
         if (!current.hasSchema("files")) {
             return;
         }
+        
+        // get the max allowed attachment size;
+        int maxSize = 0;
+        try {
+        	maxSize = CRMCoreUtils.getMaxAttachmentSize();
+        } catch (Exception e) {
+        	maxSize = Integer.MAX_VALUE;
+        }
+        
         try {
             Collection files = (Collection) current.getProperty("files",
                     "files");
-            for (UploadItem uploadItem : getUploadedFiles()) {
+            for (UploadItem uploadItem : getUploadedFiles()) {            	
+            	// file size check
+            	if (uploadItem.getFileSize() > maxSize) {
+            		throw new ClientException("Upload file is larger than allowed size(bytes) " + maxSize);
+            	}
+            	
                 String filename = FileUtils.getCleanFileName(uploadItem.getFileName());
                 Blob blob = FileUtils.createSerializableBlob(
                         new FileInputStream(uploadItem.getFile()), filename,
