@@ -559,8 +559,8 @@ public class FileManageActionsBean extends InputController implements
                     "files");
             for (UploadItem uploadItem : getUploadedFiles()) {            	
             	// file size check
-            	if (uploadItem.getFileSize() > maxSize) {
-            		throw new ClientException("Upload file is larger than allowed size(bytes) " + maxSize);
+            	if (maxSize>0 && uploadItem.getFileSize() > maxSize) {
+            		throw new ClientException("Upload file("+uploadItem.getFileSize()+") is larger than allowed size(bytes) " + maxSize);
             	}
             	
                 String filename = FileUtils.getCleanFileName(uploadItem.getFileName());
