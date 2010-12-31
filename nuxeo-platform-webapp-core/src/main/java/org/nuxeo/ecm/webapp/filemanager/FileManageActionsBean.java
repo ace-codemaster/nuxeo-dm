@@ -559,8 +559,10 @@ public class FileManageActionsBean extends InputController implements
                     "files");
             for (UploadItem uploadItem : getUploadedFiles()) {            	
             	// file size check
-            	if (maxSize>0 && uploadItem.getFileSize() > maxSize) {
-            		throw new ClientException("Upload file("+uploadItem.getFileSize()+") is larger than allowed size(bytes) " + maxSize);
+				if (maxSize > 0 && uploadItem.getFileSize() > maxSize) {
+                    facesMessages.add(FacesMessage.SEVERITY_ERROR, resourcesAccessor.getMessages().get("upload_file_size_exceed"), 
+                    		CRMCoreUtils.convertSize(uploadItem.getFileSize()), CRMCoreUtils.convertSize(maxSize));
+                    return;
             	}
             	
                 String filename = FileUtils.getCleanFileName(uploadItem.getFileName());
@@ -582,8 +584,9 @@ public class FileManageActionsBean extends InputController implements
             for (UploadItem uploadItem : getUploadedFiles()) {
                 uploadItem.getFile().delete();
             }
-        }
-        Contexts.getConversationContext().remove("fileUploadHolder");
+            
+            Contexts.getConversationContext().remove("fileUploadHolder");
+        }        
     }
 
     public void performAction(ActionEvent event) {
@@ -611,8 +614,24 @@ public class FileManageActionsBean extends InputController implements
     public String validate() throws ClientException {
         InputStream stream = null;
         if (fileUploadHolder != null && fileUploadHolder.getTempFile() != null) {
+        	
+            // get the max allowed attachment size;
+            int maxSize = 0;
+            try {
+            	maxSize = CRMCoreUtils.getMaxAttachmentSize();
+            } catch (Exception e) {
+            	maxSize = Integer.MAX_VALUE;
+            }
+        	
             try {
                 stream = new FileInputStream(fileUploadHolder.getTempFile());
+                int actualSize = stream.available();
+            	// file size check
+				if (maxSize > 0 && actualSize > maxSize) {
+                    facesMessages.add(FacesMessage.SEVERITY_ERROR, resourcesAccessor.getMessages().get("upload_file_size_exceed"), 
+                    		CRMCoreUtils.convertSize(actualSize), CRMCoreUtils.convertSize(maxSize));
+                    return null;
+            	}                
                 return addFile(stream, getFileName());
             } catch (Exception e) {
                 // NXP-3570 : temporary solution before real fix
