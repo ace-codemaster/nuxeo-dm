@@ -290,7 +290,28 @@ public class FileManageActionsBean extends InputController implements
             if (!currentDocument.isFolder()) {
                 curPath = curPath.substring(0, curPath.lastIndexOf('/'));
             }
-            String path = curPath + morePath;
+            
+            DocumentModel targetDocument = null;
+            if ((morePath != null) && (morePath.length() > 0)) {
+            	String[] segs = morePath.split("/");
+            	
+            	String targetPath = null;
+            	for (int i = (segs.length - 1); i >= 0; i--) {
+            		if ((segs[i] != null) && (segs[i].length() > 0)) {
+            			targetPath = segs[i];
+            			break;
+            		}
+            	}
+            	
+            	if (targetPath != null) {
+            		targetDocument = documentManager.getDocument(new IdRef(targetPath));
+            	}
+            }
+            
+            String path = curPath;
+            if (targetDocument != null) {
+            	path = targetDocument.getPathAsString();
+            }
 
             DocumentModel createdDoc;
             try {
@@ -317,7 +338,7 @@ public class FileManageActionsBean extends InputController implements
             EventManager.raiseEventsOnDocumentSelected(createdDoc);
             Events.instance().raiseEvent(EventNames.DOCUMENT_CHILDREN_CHANGED,
                     currentDocument);
-            return createdDoc.getName();
+            return createdDoc.getId();
         } catch (Throwable t) {
             log.error(t, t);
             return getErrorMessage(TRANSF_ERROR, fullName);
