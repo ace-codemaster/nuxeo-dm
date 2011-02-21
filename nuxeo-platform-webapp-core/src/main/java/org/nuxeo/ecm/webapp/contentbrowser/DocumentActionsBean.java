@@ -159,6 +159,7 @@ public class DocumentActionsBean extends InputController implements
     public String getCurrentDocumentSummaryLayout() {
         DocumentModel doc = navigationContext.getCurrentDocument();
         if (doc == null) {
+        	log.warn("current document is null");
             return null;
         }
         String[] layouts =  typeManager.getType(doc.getType()).getLayouts(BuiltinModes.SUMMARY, null);
